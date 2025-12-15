@@ -5,14 +5,12 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST,PUT, DELETE,OPTIONS");
 header("Access-Control-Allow-Headers:Content-Type");
 
-<<<<<<< HEAD
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-=======
->>>>>>> 568315573f3c0d29993bec7f606a46627ff57982
 require APPPATH . 'libraries/RestController.php';
 require APPPATH . 'libraries/Format.php';
 use chriskacerguis\RestServer\RestController;
@@ -24,10 +22,9 @@ Class Employee extends RestController {
         $this->load->model('Employee/Employee_model');
     }
 
-<<<<<<< HEAD
+
     //GET ALL LIST
-=======
->>>>>>> 568315573f3c0d29993bec7f606a46627ff57982
+
     function all_get (){
         $employee_list =$this ->Employee_model ->employee_list();
 
@@ -37,7 +34,7 @@ Class Employee extends RestController {
             'Employee' => $employee_list,
         ], RestController::HTTP_OK);
     }
-<<<<<<< HEAD
+
 
     //GET BY ID
     function detail_get(){
@@ -103,6 +100,5 @@ Class Employee extends RestController {
             ], RestController::HTTP_INTERNAL_ERROR);
         }
     }
-=======
->>>>>>> 568315573f3c0d29993bec7f606a46627ff57982
+
 }
