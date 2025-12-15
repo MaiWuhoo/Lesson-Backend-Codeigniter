@@ -15,7 +15,6 @@ class Office_model extends CI_Model{
         $query = $this->default_db->get('offices');
         return $query->result();
     }
-
     //GET BY ID
     public function office_by_id($id){
         $this->default_db->select('*');

@@ -9,16 +9,12 @@ class Employee_model extends CI_Model {
         $this->default_db = $this->load->database('default' , TRUE);
     }
 
-<<<<<<< HEAD
-    //GET ALL
-=======
->>>>>>> 568315573f3c0d29993bec7f606a46627ff57982
     public function employee_list (){
         $this->default_db->select('*');
         $query = $this->default_db->get('employees');
         return $query->result();
     }
-<<<<<<< HEAD
+
 
     //GET BY ID
     public function employee_by_id($id){
@@ -39,6 +35,5 @@ class Employee_model extends CI_Model {
 
         return false;
     }
-=======
->>>>>>> 568315573f3c0d29993bec7f606a46627ff57982
+
 }

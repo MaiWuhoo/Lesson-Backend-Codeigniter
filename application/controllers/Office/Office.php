@@ -16,10 +16,9 @@ Class Office extends RestController {
         $this->load->model('Office/Office_model');
     }
 
-<<<<<<< HEAD
+
     //GET ALL
-=======
->>>>>>> 568315573f3c0d29993bec7f606a46627ff57982
+
     function all_get (){
         $office_list =$this ->Office_model ->office_list();
 
@@ -29,7 +28,7 @@ Class Office extends RestController {
             "Office" => $office_list,
         ], RestController::HTTP_OK);
     }
-<<<<<<< HEAD
+
 
     //GET BY ID
     function detail_get(){
@@ -97,6 +96,5 @@ Class Office extends RestController {
             ], RestController::HTTP_INTERNAL_ERROR);
                 }
         }
-=======
->>>>>>> 568315573f3c0d29993bec7f606a46627ff57982
+
 }
