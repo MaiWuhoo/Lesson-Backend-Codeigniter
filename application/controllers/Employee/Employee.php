@@ -67,7 +67,7 @@ Class Employee extends RestController {
     //POST NEW EMPLOYEE
     function index_post(){
         $data = [
-            'employeeNumber' =>$this->post('employeeNumber'),
+            
             'lastName' =>$this->post('lastName'),
             'firstName' =>$this->post('firstName'),
             'extension' =>$this->post('extension'),
@@ -77,10 +77,11 @@ Class Employee extends RestController {
             'jobTitle' =>$this->post('jobTitle'),
         ];
 
-        if(empty($data['employeeNumber']) || empty($data['lastName'])){
+        if (empty($data['lastName'])){
             $this->response([
                 'Status'=>false,
-                'Response'=>"Employee Number and Last Name are required"
+                'Response'=>"Last Name are required",
+                'employeeNumber' =>$insert_id
             ],RestController::HTTP_BAD_REQUEST);
             return;
         }

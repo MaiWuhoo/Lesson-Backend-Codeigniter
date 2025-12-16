@@ -61,7 +61,7 @@ Class Office extends RestController {
     //CREATE
     function index_post(){
         $data =[
-            'officeCode' => $this->post('officeCode'),
+            
             'city' => $this->post('city'),
             'phone' => $this->post('phone'),
             'addressLine1' => $this->post('addressLine1'),
@@ -73,10 +73,11 @@ Class Office extends RestController {
             
         ];
         
-        if(empty($data['officeCode']) || empty($data['city'])){
-            $this->respomse([
+        if(empty($data['city'])){
+            $this->response([
                 'Status' =>false,
-                'Response' =>"Office Code and City are required"
+                'Response' =>"City are required",
+                'officeCode' =>$insert_id
             ], RestController::HTTP_BAD_REQUEST);
             return;
         }
@@ -92,7 +93,7 @@ Class Office extends RestController {
         } else {
             $this->response([
                 'Status' => false,
-                'Response' => "Failed to create customer"
+                'Response' => "Failed to create Office"
             ], RestController::HTTP_INTERNAL_ERROR);
                 }
         }

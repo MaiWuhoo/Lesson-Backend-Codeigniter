@@ -28,7 +28,7 @@ class Office_model extends CI_Model{
         $this->default_db->insert('offices',$data);
 
         if($this->default_db->affected_rows() > 0){
-            return $data ['officeCode'];
+            return  $this->default_db->insert_id(); 
         }
 
         return false;

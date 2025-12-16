@@ -30,7 +30,7 @@ class Employee_model extends CI_Model {
 
         //return employeeNumber yang baru create
         if($this->default_db->affected_rows() >0){
-            return $data['employeeNumber'];
+            return $this->default_db->insert_id(); 
         }
 
         return false;

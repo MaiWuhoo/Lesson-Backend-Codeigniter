@@ -24,13 +24,13 @@ class Customer_model extends CI_Model{
         return $query->row(); 
     }
 
-    // CREATE
+    // CREATE - UPDATED
     public function customer_create($data){
         $this->default_db->insert('customers', $data);
         
-        // Return customerNumber yang baru created
+        // Return auto-generated customerNumber
         if($this->default_db->affected_rows() > 0){
-            return $data['customerNumber'];
+            return $this->default_db->insert_id(); 
         }
         
         return false;

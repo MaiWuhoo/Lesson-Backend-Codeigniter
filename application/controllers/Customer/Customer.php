@@ -63,7 +63,7 @@ class Customer extends RestController {
     // CREATE
     function index_post(){
         $data = [
-            'customerNumber' => $this->post('customerNumber'),
+        
             'customerName' => $this->post('customerName'),
             'contactLastName' => $this->post('contactLastName'),
             'contactFirstName' => $this->post('contactFirstName'),
@@ -78,10 +78,11 @@ class Customer extends RestController {
             'creditLimit' => $this->post('creditLimit')
         ];
         
-        if(empty($data['customerNumber']) || empty($data['customerName'])){
+         if(empty($data['customerName'])){
             $this->response([
                 'Status' => false,
-                'Response' => "Customer Number and Customer Name are required"
+                'Response' => "Customer Name are required",
+                'customerNumber' =>$insert_id
             ], RestController::HTTP_BAD_REQUEST);
             return;
         }
