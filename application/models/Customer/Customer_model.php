@@ -35,4 +35,20 @@ class Customer_model extends CI_Model{
         
         return false;
     }
+
+            // UPDATE - untuk PUT dan PATCH
+    public function customer_update($customerNumber, $data){
+        $this->default_db->where('customerNumber', $customerNumber);
+        $this->default_db->update('customers', $data);
+        
+        return $this->default_db->affected_rows() > 0;
+    }
+
+   // DELETE
+public function customer_delete($customerNumber){
+    $this->default_db->where('customerNumber', $customerNumber);
+    $this->default_db->delete('customers');
+    
+    return $this->default_db->affected_rows() > 0;
+}
 }

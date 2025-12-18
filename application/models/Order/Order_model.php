@@ -33,4 +33,18 @@ class Order_model extends CI_Model {
 
         return false;
     }
+
+    public function order_update($orderNumber, $data){
+        $this->default_db->where('orderNumber', $orderNumber);
+        $this->default_db->update('orders', $data);
+
+        return $this->default_db->affected_rows()>0;
+    }
+
+    public function order_delete($orderNumber){
+        $this->default_db->where('orderNumber', $orderNumber);
+        $this->default_db->delete('orders');
+
+        return $this->default_db->affected_rows ()>0;
+    }
 }

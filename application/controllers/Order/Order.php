@@ -95,4 +95,127 @@ Class Order extends RestController {
             ], RestController::HTTP_INTERNAL_ERROR);
         }
     }
+
+    //PUT (Full Update)
+    function index_put(){
+        $orderNumber = $this->put('orderNumber');
+
+        if(!$orderNumber){
+            $this->response([
+                'Status' => false,
+                'Response' => "Order Number is required"
+            ], RestController::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        if(!$this -> put('orderDate') || !$this->put('requiredDate') || 
+        !$this -> put('shippedDate') || !$this -> put('status') ||
+        !$this -> put ('comments') || !$this -> put ('customerNumber')){
+            $this -> response([
+                'Status'=>false,
+                'Response' =>"All required fields must be probided for full update"
+            ], RestController::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $data = [
+            'orderDate' => $this -> put('orderDate'),
+            'requiredDate' => $this -> put('requiredDate'),
+            'shippedDate'=> $this -> put('shippedDate'),
+            'status' => $this -> put('status'),
+            'comments'=>$this -> put('comments'),
+            'customerNumber' => $this -> put ('customerNumber')
+        ];
+
+        $update_result = $this->Order_model -> order_update($orderNumber, $data);
+
+        if($update_result){
+            $this -> response([
+                'Status' => true,
+                'Response' => "Order replaced successfully!",
+                'OrderNumber' => $orderNumber
+            ], RestController::HTTP_OK);
+        } else{
+            $this -> response([
+                'Status' => false,
+                'Response' => "Failed to update order"
+            ], RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    //PATCH (Partial Update)
+    function index_patch (){
+        $orderNumber = $this -> patch ('orderNumber');
+
+        if(!$orderNumber){
+            $this->response([
+                'Status' => false,
+                'Response' => "Order Number is required"
+            ], RestController::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $data = [];
+
+        if($this -> patch('orderDate') !== null) $data ['orderDate'] = $this -> patch('orderDate');
+        if($this -> patch ('requiredDate') !== null) $date['requiredDate'] = $this -> patch ('requiredDate');
+        if($this -> patch ('shippedDate') !== null) $data ['shippedDate'] = $this -> patch ('shippedDate');
+        if($this -> patch ('status') !== null) $data['status'] = $this -> patch ('status');
+        if($this -> patch ('comments') !== null) $data ['comments'] = $this -> patch('comments');
+        if($this -> patch ('customerNumber') !== null) $data ['customerNumber'] = $this -> patch ('customerNumber');
+
+        if(empty($data)){
+            $this -> response([
+                'Status' =>false,
+                'Response' => "No data provided for update"
+            ], RestController::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $update_result = $this ->Order_model -> order_update($orderNumber, $data);
+
+        if($update_result){
+            $this -> response([
+                'Status'=>false,
+                'Response' => "Failed to update customer or no changes made"
+            ], RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    //DELETE
+    function detail_delete(){
+        $orderNumber = $this -> input->request_headers()['orderNumber'];
+
+        if(!$orderNumber){
+            $this -> response([
+                'Status'=>false,
+                'Response' => "Order Number is required"
+            ], RestController::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $existing_order = $this -> Order_model -> order_by_id($orderNumber);
+        if(!$existing_order){
+            $this-> response([
+                'Status' => false,
+                'Response' => "Order not found"
+            ], RestController::HTTP_NOT_FOUND);
+            return;
+        }
+
+        $delete_result = $this->Order_model->order_delete($orderNumber);
+
+        if($delete_result){
+            $this -> response([
+                'Status' => true,
+                'Response' => "Order deleted successfully!",
+                'OrderNumber' => $orderNumber
+            ], RestController::HTTP_OK);
+        } else {
+            $this -> response([
+                'Status' => false,
+                'Response' => "Failed to delete order"
+            ], RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
 }

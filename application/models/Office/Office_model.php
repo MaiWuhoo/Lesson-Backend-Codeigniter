@@ -33,4 +33,21 @@ class Office_model extends CI_Model{
 
         return false;
     }
-}
+
+    //Update
+
+    public function office_update ($officeCode, $data){
+        $this->default_db->where('officeCode', $officeCode);
+        $this->default_db->update('offices', $data);
+
+        return $this->default_db->affected_rows()>0;
+    }
+
+        //DELETE
+        public function office_delete($officeCode){
+            $this->default_db->where('officeCode', $officeCode);
+            $this->default_db->delete('offices');
+
+            return $this->default_db->affected_rows()>0;
+        }
+    }

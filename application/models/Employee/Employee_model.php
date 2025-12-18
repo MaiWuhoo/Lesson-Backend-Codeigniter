@@ -36,4 +36,19 @@ class Employee_model extends CI_Model {
         return false;
     }
 
+    //UPDATE (PUT & PATCH)
+    public function employee_update($employeeNumber , $data){
+        $this->default_db->where('employeeNumber',$employeeNumber);
+        $this->default_db->update('employees' ,$data);
+
+        return $this->default_db->affected_rows() > 0;
+    }
+
+    public function employee_delete($employeeNumber){
+    $this->default_db->where('employeeNumber', $employeeNumber);
+    $this->default_db->delete('employees');
+    
+    return $this->default_db->affected_rows() > 0;
+}
+
 }

@@ -32,4 +32,17 @@ class ProductLine_model extends CI_Model{
             return $data['productLine'];
         }
     }
+
+    public function productLine_update($productLine,$data){
+        $this->default_db->where('productLine', $productLine);
+        $this->default_db->update('productlines', $data);
+        return $this->default_db->affected_rows() > 0;
+    }
+
+    public function productLine_delete($productLine){
+    $this->default_db->where('productLine', $productLine);
+    $this->default_db->delete('productlines');
+    
+    return $this->default_db->affected_rows() > 0;
+}
 }

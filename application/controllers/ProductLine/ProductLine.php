@@ -92,4 +92,145 @@ Class ProductLine extends RestController {
             ], RestController::HTTP_INTERNAL_ERROR);
         }
     }
+
+    //PUT
+    function index_put(){
+        $productLine = $this -> put('productLine');
+
+        if(!$productLine){
+            $this->response([
+                'Status' => false,
+                'Response' => "Product Line is required"
+            ], RestController::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $existing_productLine = $this->ProductLine_model -> productLine_by_id($productLine);
+        if(!$existing_productLine){
+            $this->response([
+                'Status'=>false,
+                'Response' => "Product Line not found"
+            ], RestController::HTTP_NOT_FPUND);
+            return;
+        }
+
+        if(!$this->put('textDescription') || !$this->put('htmlDescription') ||
+        !$this->put('image')){
+            $this-> response([
+                'Status' => false,
+                'Response' => "All required fields must be provided for full update"
+            ], RestController::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $data =[
+            'textDescription' => $this -> put('textDescription'),
+            'htmlDescription' => $this-> put('htmlDescription'),
+            'image'=>$this->put('image')
+        ];
+
+        $update_result = $this->ProductLine_model->productLine_update($productLine,$data);
+
+        if($update_result){
+            $this->response([
+                'Status' => true,
+                'Response' => "Customer replaced successfully!",
+                'ProductLine'=>$productLine
+            ], RestController::HTTP_OK);
+        }else{
+            $this->response([
+                'Status' => false,
+                'Response' => "Failed to update customer"
+            ], RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    //PATCH
+    function index_patch(){
+        $productLine = $this -> patch('productLine');
+
+        if(!$productLine){
+            $this->response([
+                'Status'=>false,
+                'Response' => "Product Line is required"
+            ], RestController::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $existing_productLine = $this ->ProductLine_model -> productline_by_id($productLine);
+        if(!$existing_productLine){
+            $this->response([
+                'Status'=>false,
+                'Response' => "Product Line not found"
+            ], RestController::HTTP_NOT_FOUND);
+            return;
+        }
+
+        $data = [];
+
+        if($this->patch('textDescription') !== null) $data ['textDescription'] = $this->patch('textDescription');
+        if($this->patch('htmlDescription') !== null) $data ['htmlDescription'] = $this->patch('htmlDescription');
+        if($this->patch('image') !== null) $data ['image'] = $this->patch('image');
+
+        if(empty($data)){
+            $this -> response([
+                'Status'=>false,
+                'Response' => "No data provided for update"
+            ], RestController::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $update_result = $this->ProductLine_model->productline_update($productLine, $data);
+
+
+        if($update_result){
+            $this->response([
+                'Status'=> true,
+                'Response'=>"Product Line updated successfully!",
+                'ProductLine'=>$productLine
+            ], RestController::HTTP_OK);
+        }else{
+            $this -> response([
+                'Status' => false,
+                'Response' => "Failed to update productLine or no changes made"
+            ],RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
+
+    //DELETE
+    function detail_delete(){
+        $productLine = $this->input->request_headers()['productLine'];
+
+        if(!$productLine){
+            $this -> response([
+                'Status'=>false,
+                'Response'=>"Product Line is required"
+            ], RestController::HTTP_BAD_REQUEST);
+            return;
+        }
+
+        $existing_productLine = $this->ProductLine_model -> productline_by_id($productLine);
+        if(!$existing_productLine){
+            $this->response([
+                'Status' => false,
+                'Response' => "Product Line not found"
+            ], RestController::HTTP_NOT_FOUND);
+            return;
+        }
+
+        $delete_result = $this->ProductLine_model ->productline_delete($productLine);
+        
+        if($delete_result){
+            $this->response([
+                'Status' => true,
+                'Response' => "Product Line deleted successfully!",
+                'ProductLine' => $productLine
+            ], RestController::HTTP_OK);
+        } else {
+            $this->response([
+                'Status' => false,
+                'Response' => "Failed to delete Product Line"
+            ], RestController::HTTP_INTERNAL_ERROR);
+        }
+    }
 }
